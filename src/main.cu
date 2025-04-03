@@ -1,4 +1,4 @@
-#include <stdio.h>
+#include <iostream>
 #include <vector>
 #include "common.cuh"
 #include "add.cuh"
@@ -7,7 +7,7 @@
 
 void add_demo()
 {
-    using DemoType = int;
+    using DemoType = double;
     sz n = 10000;
 
     std::vector<DemoType> vec1;
@@ -16,8 +16,8 @@ void add_demo()
 
     for (sz i = 0; i < n; i++)
     {
-        vec1.push_back(CommonUtils::random(0, 100));
-        vec2.push_back(CommonUtils::random(0, 100));
+        vec1.push_back(CommonUtils::random<DemoType>(0, 100));
+        vec2.push_back(CommonUtils::random<DemoType>(0, 100));
     }
 
     // cuda add
@@ -40,7 +40,7 @@ void add_demo()
     freopen("output.txt", "w", stdout);
     for (sz i = 0; i < n; i++)
     {
-        printf("%d + %d = %d\n", vec1[i], vec2[i], result[i]);
+        std::cout << vec1[i] << " + " << vec2[i] << " = " << result[i] << std::endl;
     }
 
     cudaDeviceReset();
