@@ -55,7 +55,7 @@ void add2d_demo()
 {
     using DemoType = int;
     static constexpr sz Row = 1000;
-    static constexpr sz Col = 2;
+    static constexpr sz Col = 4;
 
     auto vec1 = std::unique_ptr<DemoType[]>(new DemoType[Row * Col]);
     auto vec2 = std::unique_ptr<DemoType[]>(new DemoType[Row * Col]);
@@ -82,12 +82,16 @@ void add2d_demo()
         auto d_result = CudaMemRAII<DemoType>::Alloc(Row * Col);
         
         // thread num
-        sz block_size = 8;
+        sz block_x_size = 1;
+        sz block_y_size = 1;
         
-        dim3 gridDim(block_size, block_size, 1);
+        dim3 gridDim(block_x_size, block_y_size, 1);
         dim3 blockDim(
-            (Col + block_size - 1) / block_size,
-            (Row + block_size - 1) / block_size, 1);
+            (Col + block_x_size - 1) / block_x_size,
+            (Row + block_y_size - 1) / block_y_size, 1);
+
+        std::cout << "gridDim: " << gridDim.x << " " << gridDim.y << " " << gridDim.z << std::endl;
+        std::cout << "blockDim: " << blockDim.x << " " << blockDim.y << " " << blockDim.z << std::endl;
 
         add <<<gridDim, blockDim>>> (d_vec1.get(), d_vec2.get(), d_result.get(), Row, Col);
         cudaDeviceSynchronize();

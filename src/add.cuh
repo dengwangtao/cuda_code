@@ -40,3 +40,11 @@ void add(T* a, T* b, T* c, sz row, sz col) // for 2D arrays
     }
 #endif
 }
+
+
+template<typename T>
+void part_add(T* a, T* b, T* c, sz row, sz col)
+{
+    // 使用一维网格和一维块
+    
+}
